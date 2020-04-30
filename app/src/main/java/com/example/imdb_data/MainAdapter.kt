@@ -4,17 +4,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.movie_row.view.*
 
-//val homeFeed: HomeFeed
-class MainAdapter(val homeFeed: HomeFeed) : RecyclerView.Adapter<CustomViewHolder>() {
+class MainAdapter(val moviesFeed: ImbdResponse) : RecyclerView.Adapter<CustomViewHolder>() {
 
-    val movieTitles = listOf("first", "second", "third", "4th", "5th", "how", "i gonna", "success", "this??")
-
-    //    number of items
     override fun getItemCount(): Int {
-        return homeFeed.movies.count()
-//        return movieTitles.size
+        return moviesFeed.response.count()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CustomViewHolder {
@@ -24,11 +20,13 @@ class MainAdapter(val homeFeed: HomeFeed) : RecyclerView.Adapter<CustomViewHolde
     }
 
     override fun onBindViewHolder(holder: CustomViewHolder, position: Int) {
-//        val movieTitles = movieTitles[position]
-//        holder?.view?.textMovieTitle?.text = movieTitles
-        val movie = homeFeed.movies[position]
-        holder?.view?.textMovieTitle?.text = movie.title
-        holder?.view?.textMovieYear?.text = movie.year.toString()
+        val movie = moviesFeed.response[position]
+        holder.view.textMovieTitle?.text = movie.title
+        holder.view.textMovieYear?.text = movie.year.toString()
+
+        Picasso.get()
+            .load(movie.poster)
+            .into(holder.view.imageView)
     }
 }
 
